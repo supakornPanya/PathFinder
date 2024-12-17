@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graph Quiz Solving</title>
+    <link href="style.css" rel="stylesheet" />
+    <link href="../tailwind.min.css" rel="stylesheet" />
+
+    <!-- bad prctice (CDN) -->
+    <!-- <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- bad prctice (CDN) -->
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 p-4">
+    <div
+      class="max-w-6xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden"
+    >
+      <!-- header (start)=>(1) -->
+      <header class="bg-orange-400 text-white p-5">
+        <div class="font-bold text-xl md:text-2xl tracking-tight">
+          Graph Pathfinder
+        </div>
+        <div class="mt-2 text-sm md:text-base">
+          Explore and solve graph traversal challenges
+        </div>
+      </header>
+
+      <!-- navigation (start)=>(2) -->
+      <nav>
+
+      </nav>
+
+      <!-- section1 solving graph (start)=>(3.1) -->
+      <section>
+        <!--input graph (start)-->
+        <form class="m-5 text-center">
+          <label for="rows">Enter number of rows :</label>
+          <input
+            type="number"
+            min="1"
+            max="40"
+            placeholder="rows"
+            id="rows"
+            class="focus:outline-none focus:ring focus:border-blue-300"
+          />
+          <br />
+          <label for="colums">Enter number of columns :</label>
+          <input
+            type="number"
+            min="1"
+            max="40"
+            placeholder="columns"
+            id="cols"
+            class="focus:outline-none focus:ring focus:border-blue-300"
+          />
+          <br />
+          <button type="submit" class="active:bg-green-700">submit</button>
+        </form>
+
+        <!--table input (start)-->
+        <section id="ContainerInput" class="p-3 overflow-x-auto my-7"></section>
+
+        <!--table output (start)-->
+        <section id="ContainerOutput" class="p-3 overflow-x-auto my-7"></section>
+      </section>
+    </div>
+
+    <!-- section1 information (start)=>(3.2) -->
+    <section>
+      <!-- 
+      <p class="text-sm md:text-base">
+        Welcome to my Graph Pathfinding tool! This website allows you to find
+        valid paths in a grid-based graph. The grid is composed of rows and
+        columns, where each cell represents a node. You can define valid and
+        invalid nodes and calculate a path based on a set of traversal rules.
+        Here is a step-by-step guide to using the tool:
+      </p> -->
+    </section>
+
+    <script src="script.js" async></script>
+  </body>
+</html>
