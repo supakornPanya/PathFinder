@@ -3,55 +3,101 @@ let rows = 0;
 let cols = 0;
 let validNode = 0;
 
-//(1)create table input & toggle colors----------------------------------------------->
-//(1.1)create table input
+//(1)nav function----------------------------------------------->
+const navButtons = document.querySelectorAll(".nav-btn");
+const sectionTarget = document.querySelectorAll(".section");
+//alway check button class name "nav-btn" have click?
+navButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    //Set all button to default & hidden all section
+    navButtons.forEach((btn) => {
+      btn.classList.remove(
+        "bg-orange-200",
+        "text-orange-600",
+        "border-orange-700",
+        "hover:bg-orange-400",
+        "hover:text-white"
+      );
+      btn.classList.add("hover:bg-gray-200", "text-black");
+    });
+    sectionTarget.forEach((section) => section.classList.add("hidden"));
+    //Activate target button & show target section
+    button.classList.add(
+      "bg-orange-200",
+      "text-orange-600",
+      "border-orange-700",
+      "hover:bg-orange-400",
+      "hover:text-white"
+    );
+    let IdActivateSection = button.getAttribute("data-target");
+    document.getElementById(IdActivateSection).classList.remove("hidden");
+  });
+});
+//(1)nav function----------------------------------------------->
+
+//(2)create table input & toggle colors----------------------------------------------->
+//(2.1) crete submitButton or warning?
+const ButtonOutTable = document.getElementById("ButtonOutTable");
+const warning = document.getElementById("warning");
+
+ButtonInTable.addEventListener("click", () => {
+  rows = document.getElementById("rows").value;
+  cols = document.getElementById("cols").value;
+  if (rows > 0 && cols > 0) {
+    ButtonOutTable.classList.remove("hidden");
+    warning.classList.add("hidden");
+    console.log("add button addEventListener");
+  } else {
+    ButtonOutTable.classList.add("hidden");
+    warning.classList.remove("hidden");
+    console.log("add warning addEventListener");
+  }
+});
+
+//(2.2)create table input
 document.querySelector("form").addEventListener("submit", function (event) {
   event.preventDefault(); //prevent web reload when click submit
   rows = document.getElementById("rows").value;
   cols = document.getElementById("cols").value;
   validNode = rows * cols;
-  console.log("Create Table input => rows : ", rows, ", colums : ", cols);
 
-  //clear inTable(clear before table)
-  let inputTable = document.getElementById("ContainerInput");
-  inputTable.innerHTML = "";
-  //create table in html
-  let table = document.createElement("table");
-  table.classList.add("InTable");
-  for (let i = 0; i < rows; i++) {
-    let TableRow = document.createElement("tr");
-    TableRow.classList.add("InTableRow")
-    for (let j = 0; j < cols; j++) {
-      grid[i][j] = 1;
-      let nodeButton = document.createElement("button");
-      nodeButton.classList.add("NodeButton");
-      nodeButton.style.backgroundColor = "rgb(150,255,150)";
-      nodeButton.innerText = i + 1 + "," + (j + 1);
-      nodeButton.onclick = function () {
-        toggleColor(nodeButton, i, j);
-      };
+  //rows&cols != 0 => create input table
+  if (rows != 0 && cols != 0) {
+    console.log("Create Table input => rows : ", rows, ", colums : ", cols);
+    //clear inTable(clear before table)
+    let inputTable = document.getElementById("ContainerInput");
+    inputTable.innerHTML = "";
+    //create table in html
+    let table = document.createElement("table");
+    table.classList.add("InTable");
+    for (let i = 0; i < rows; i++) {
+      let TableRow = document.createElement("tr");
+      TableRow.classList.add("InTableRow");
+      for (let j = 0; j < cols; j++) {
+        grid[i][j] = 1;
+        let nodeButton = document.createElement("button");
+        nodeButton.classList.add("NodeButton");
+        nodeButton.style.backgroundColor = "rgb(150,255,150)";
+        nodeButton.innerText = i + 1 + "," + (j + 1);
+        nodeButton.onclick = function () {
+          toggleColor(nodeButton, i, j);
+        };
 
-      let tableData = document.createElement("td");
-      tableData.classList.add("InTableData");
+        let tableData = document.createElement("td");
+        tableData.classList.add("InTableData");
 
-      tableData.appendChild(nodeButton);
-      TableRow.appendChild(tableData);
+        tableData.appendChild(nodeButton);
+        TableRow.appendChild(tableData);
+      }
+
+      table.appendChild(TableRow);
     }
-
-    table.appendChild(TableRow);
+    //add table(new) Container of input Table
+    inputTable.appendChild(table);
   }
-  //add table(new) Container of input Table
-  inputTable.appendChild(table);
-
-  let submitTable = document.createElement("button");
-  submitTable.innerText = "submit";
-  submitTable.onclick = function () {
-    submitGraph();
-  };
-  inputTable.appendChild(submitTable);
 });
 
-//(1.2) function toggle colors
+//(2.3) function toggle colors
 function toggleColor(thisButton, i, j) {
   if (getComputedStyle(thisButton).backgroundColor == "rgb(150, 255, 150)") {
     grid[i][j] = -1;
@@ -71,24 +117,11 @@ function toggleColor(thisButton, i, j) {
     getComputedStyle(thisButton).backgroundColor
   );
 }
-//(1)create table input & toggle colors----------------------------------------------->
+//(2)create table input & toggle colors----------------------------------------------->
 
-//test
-function swapColor1(event) {
-  let thisButton = event.target;
-  if (getComputedStyle(thisButton).backgroundColor == "rgb(0, 128, 0)") {
-    console.log("change to red");
-    thisButton.style.backgroundColor = "red";
-  } else {
-    console.log("change to green");
-    thisButton.style.backgroundColor = "green";
-  }
-  console.log("now color ", getComputedStyle(thisButton).backgroundColor);
-}
-
-//(2)show result & calculate(DFS Graph)----------------------------------------------->
+//(3)show result & calculate(DFS Graph)----------------------------------------------->
 let canFindPath = false;
-//(2.1)show the result
+//(3.1)show the result
 function showResult(path) {
   let output = document.getElementById("ContainerOutput");
   output.innerHTML = "";
@@ -142,7 +175,7 @@ function showResult(path) {
   }
 }
 
-//(2.2)traversal in graph (start = (i,j)) by DFS(backtracking)
+//(3.2)traversal in graph (start = (i,j)) by DFS(backtracking)
 function isValid(i, j, flag) {
   return (
     i >= 0 && i < rows && j >= 0 && j < cols && grid[i][j] === 1 && !flag[i][j]
@@ -200,7 +233,7 @@ function dfs(i, j) {
   return path;
 }
 
-//(2.3)try to start all node
+//(3.3)try to start all node
 function startTraversal() {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
@@ -213,10 +246,10 @@ function startTraversal() {
   return [];
 }
 
-//(2.4)submit -> (DFS + show result)
+//(3.4)submit -> (DFS + show result)
 function submitGraph() {
   canFindPath = false;
   let ans = startTraversal();
   showResult(ans);
 }
-//(2)show result & calculate(DFS Graph)----------------------------------------------->
+//(3)show result & calculate(DFS Graph)----------------------------------------------->
