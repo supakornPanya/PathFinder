@@ -170,7 +170,8 @@ function showResult(path) {
   else {
     let alert = document.createElement("div");
     alert.classList.add("alert");
-    alert.innerText = "Unable to find route";
+    alert.innerText =
+      "From this input graph, unable to find a route (cannot traverse all valid nodes).";
     output.appendChild(alert);
   }
 }
